@@ -62,12 +62,15 @@ class TicTacToe
    end
 
    def won?
-     WIN_COMBINATIONS.each do |win_combo|
-       if (@board[win_combo[0]] == "X" && @board[win_combo[1]] == "X" && @board[win_combo[2]] == "X")|| (@board[win_combo[0]] == "O" && @board[win_combo[1]] == "O" && @board[win_combo[2]] == "O")
-       return win_combo
+     WIN_COMBINATIONS.each do |combo|
+       first_token = @board[combo[0]] #unneccesary to do this but easier to read
+       second_token = @board[combo[1]]
+       third_token = @board[combo[2]]
+       if first_token == "X" && second_token == "X" && third_token == "X" || first_token == "O" && second_token == "O" && third_token == "O"
+         return combo
        end
      end
-     return false
+     return false # return false here in order to loop through all WIN_COMBINATIONS
     end
 
    def full?
@@ -96,7 +99,6 @@ class TicTacToe
    def play
      until over? == true
        turn
-       # binding.pry
      end
      if won? != false && winner == "X"
        puts "Congratulations X!"
