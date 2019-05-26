@@ -15,7 +15,7 @@ class TicTacToe
     def initialize(board = nil)
         @board = board || Array.new(9, " ")
     end
-
+    
     def display_board
         puts "   |   |   "
         puts "-----------"
@@ -75,18 +75,24 @@ class TicTacToe
         # if the move is valid, make the move and display the board
         # if the move is invalid, ask for a new move until a valid move is recieved
         puts "Please enter 1-9:"
-        input = gets.chomp
+        input = gets
         index = input_to_index(input)
         if valid_move?(index)
-            move(index, current_player)  
+            move(index, current_player)
+            display_board
         else
             turn
         end
-        display_board
+            
     end
 
     def won?
-        
+        WIN_COMBINATIONS.each do |win_combo|
+           if @board[win_combo[0]] == @board[win_combo[1]] && @board[win_combo[1]] == @board[win_combo[2]]
+            return win_combo unless @board[win_combo[0]] == " "
+           end
+        end
+        false
     end
 
     def full?
@@ -111,8 +117,24 @@ class TicTacToe
 
     def winner
         if won?
-            board[won?[0]]
+            @board[won?[0]]
+        else 
+            nil
+        end
+    end
+
+
+    def play
+        until over?
+            turn
+        end
+
+        if won?
+            puts "Congratulations #{winner}!"
+        else draw?
+            puts "Cat's Game!"
         end
     end
 
 end
+
