@@ -67,13 +67,60 @@ def turn
   end
 end
 
-def won
-  WIN_COMBINATIONS.each do |combo|
-    binding.pry
-    @board.each do |board_position|
-      
+def won?
+  temp = []
+    #binding.pry
+    WIN_COMBINATIONS.each_with_index do |combo_arr, combo_index|
+      combo_arr.each do |position_index|
+         
+      temp << @board[position_index]
+      end
+    if temp.all? {|token| token == "X" } || temp.all? {|token| token == "O" }
+      return combo_arr
+    else
+      temp = []
+     #binding.pry
     end
-    
   end
+    return false
+end
+
+def full?
+  @board.all? {|token| token == "X" || token == "O"}
+end
+
+def draw?
+  if full? && !won?
+    return true
+  else
+    return false
+   end
+end
+
+def over?
+  if won? || full?
+    return true
+  end
+end
+
+def winner
+    #binding.pry
+    if won?
+      if @board[won?[0]] == "X"
+        return "X"
+      elsif  @board[won?[0]] == "O"
+        return "O"
+      end
+    else
+      return nil
+    end
+  end
+def play
+  user = gets.chomp
+  3.times do
+    turn
+    over?
+  end
+  
 end
 end
