@@ -23,8 +23,7 @@ def input_to_index(user_input)
 end
 
 def move(index, token = "X")
-  input = input_to_index(index + 1)
-  @board[input] = token
+  @board[index] = token
 end
 
 def position_taken?(position)
@@ -53,18 +52,16 @@ def current_player
 end
 
 def turn
+  puts "Please enter a position."
   input = gets.chomp
   index = input_to_index(input)
-  valid = valid_move?(index)
   
-  if valid == true
-    @board[index] = current_player
-    display_board
+  if valid_move?(index)
+    move(index, current_player)
   else
-    puts "Please enter a new move"
-    input = gets.chomp
-    valid_move?(input_to_index(input))
+    turn
   end
+  display_board
 end
 
 def won?
@@ -98,9 +95,8 @@ def draw?
 end
 
 def over?
-  if won? || full?
-    return true
-  end
+  #binding.pry
+  won? || full?
 end
 
 def winner
@@ -117,10 +113,13 @@ def winner
   end
   
 def play
-  user = gets.chomp
   until over? 
     turn
   end
-  
+  if winner
+    puts "Congratulations #{winner}!"
+  else
+    puts "Cat's Game!"
+  end
 end
 end
