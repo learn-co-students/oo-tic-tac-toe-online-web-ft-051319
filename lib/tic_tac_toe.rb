@@ -115,11 +115,11 @@ def winner
       return nil
     end
   end
+  
 def play
   user = gets.chomp
-  3.times do
+  until over? 
     turn
-    over?
   end
   
 end
